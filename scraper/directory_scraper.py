@@ -1,4 +1,4 @@
-"""
+﻿"""
 directory_scraper.py
 
 Scrapes each firm's public team/roster page (as configured in config/firms.py)
@@ -89,8 +89,15 @@ def scrape_firm(firm_config: dict) -> list[dict]:
             from urllib.parse import urljoin
             bio_link = urljoin(url, bio_link)
 
-        if not name:
-            continue  # skip empty/decorative blocks
+        junk_names = {
+            "register now",
+            "loading...",
+            "communication error",
+            "cushman & wakefield multifamily advisory group charlotte office",
+        }
+
+        if not name or name.strip().lower() in junk_names:
+            continue
 
         rows.append({
             "name": name,
@@ -132,3 +139,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
