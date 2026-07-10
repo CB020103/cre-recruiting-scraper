@@ -1,4 +1,4 @@
-﻿"""
+"""
 directory_scraper.py
 
 Scrapes each firm's public team/roster page (as configured in config/firms.py)
@@ -29,6 +29,7 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).parent))
 from config.firms import FIRMS
+from config.manual_candidates import MANUAL_CANDIDATES
 
 HEADERS = {
     # A normal browser UA - identify honestly, don't try to look like something we're not.
@@ -115,7 +116,9 @@ def scrape_firm(firm_config: dict) -> list[dict]:
 
 
 def main():
-    all_rows = []
+    all_rows = list(MANUAL_CANDIDATES)
+    print(f"[manual] loaded {len(MANUAL_CANDIDATES)} verified recruiting candidates")
+
     for firm_config in FIRMS:
         all_rows.extend(scrape_firm(firm_config))
         time.sleep(DELAY_BETWEEN_REQUESTS_SEC)
