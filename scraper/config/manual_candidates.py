@@ -1,14 +1,15 @@
-﻿"""Manually verified high-priority recruiting candidates.
-
-Use this for firms whose public websites block automated requests or do not
-provide a stable roster page. Every entry should be supported by an official
-company profile or another reliable public source.
+"""
+Manually verified high-priority recruiting candidates.
 """
 
 from datetime import date
 
-
 MANUAL_CANDIDATES = [
+
+    # ----------------------------
+    # NEWMARK
+    # ----------------------------
+
     {
         "name": "Dean Smith",
         "company": "Newmark",
@@ -59,4 +60,50 @@ MANUAL_CANDIDATES = [
         "source_url": "https://www.nmrk.com/people/john-munroe",
         "scraped_date": date.today().isoformat(),
     },
+
+    # ----------------------------
+    # JLL
+    # ----------------------------
+
+    {
+        "name": "John Gavigan",
+        "company": "JLL",
+        "title": "Managing Director, Capital Markets",
+        "city": "Charlotte",
+        "market": "Charlotte + Raleigh",
+        "website": "https://www.jll.com/en-us/people/bio-broker/john.gavigan",
+        "source_url": "https://www.jll.com/en-us/people/bio-broker/john.gavigan",
+        "scraped_date": date.today().isoformat(),
+    },
+    {
+        "name": "John Mikels",
+        "company": "JLL",
+        "title": "Managing Director, Capital Markets",
+        "city": "Charlotte",
+        "market": "Charlotte + Raleigh",
+        "website": "https://www.jll.com/en-us/people/bio-broker/john.mikels",
+        "source_url": "https://www.jll.com/en-us/people/bio-broker/john.mikels",
+        "scraped_date": date.today().isoformat(),
+    },
+    {
+        "name": "Ben Bury",
+        "company": "JLL",
+        "title": "Senior Director, Capital Markets",
+        "city": "Charlotte",
+        "market": "Charlotte + Raleigh",
+        "website": "https://www.jll.com/en-us/people/bio-broker/ben.bury",
+        "source_url": "https://www.jll.com/en-us/people/bio-broker/ben.bury",
+        "scraped_date": date.today().isoformat(),
+    },
+    {
+        "name": "Casey Sherman",
+        "company": "JLL",
+        "title": "Senior Director, Capital Markets",
+        "city": "Charlotte",
+        "market": "Charlotte + Raleigh",
+        "website": "https://www.jll.com/en-us/people/bio-broker/casey.sherman",
+        "source_url": "https://www.jll.com/en-us/people/bio-broker/casey.sherman",
+        "scraped_date": date.today().isoformat(),
+    },
+
 ]
