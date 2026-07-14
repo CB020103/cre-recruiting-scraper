@@ -105,6 +105,18 @@ MARKETS = {
             "greater boston",
         ],
     },
+
+    "nashville": {
+        "display_name": "Nashville",
+        "aliases": ["Nashville"],
+        "cities": ["Nashville", "Brentwood", "Murfreesboro", "Antioch"],
+        "keywords": [
+            "nashville",
+            "brentwood",
+            "tennessee",
+            "murfreesboro",
+        ],
+    },
 }
 
 

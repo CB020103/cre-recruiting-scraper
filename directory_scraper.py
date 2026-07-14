@@ -1,4 +1,4 @@
-﻿"""Create a market-specific broker recruiting directory.
+"""Create a market-specific broker recruiting directory.
 
 Combines:
 1. Verified manual candidates
@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from config.firms import FIRMS
 from config.manual_candidates import MANUAL_CANDIDATES
+from config.performance_data import PERFORMANCE_DATA
 from config.markets import (
     DEFAULT_MARKET,
     MARKETS,
@@ -304,6 +305,28 @@ def main():
 
     all_rows = deduplicate_rows(all_rows)
 
+    performance_fields = [
+        "verified_volume_usd",
+        "verified_deal_count",
+        "verified_units",
+        "recent_deal_count",
+        "largest_known_deal_usd",
+        "institutional_experience",
+        "performance_source",
+        "performance_notes",
+    ]
+
+    for row in all_rows:
+        key = (
+            str(row.get("name", "")).strip(),
+            str(row.get("company", "")).strip(),
+        )
+
+        performance = PERFORMANCE_DATA.get(key, {})
+
+        for field in performance_fields:
+            row[field] = performance.get(field, "")
+
     all_rows.sort(
         key=lambda row: (
             str(row.get("company", "")),
@@ -338,6 +361,14 @@ def main():
         "source_url",
         "source_type",
         "scraped_date",
+        "verified_volume_usd",
+        "verified_deal_count",
+        "verified_units",
+        "recent_deal_count",
+        "largest_known_deal_usd",
+        "institutional_experience",
+        "performance_source",
+        "performance_notes",
     ]
 
     with output_path.open(
