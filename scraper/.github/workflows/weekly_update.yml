@@ -1,0 +1,42 @@
+name: Weekly Recruiting Tracker Update
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update workbook
+        run: python update_workbook.py --workbook "Recruiting_Workbook.xlsx"
+
+      - name: Commit updated workbook back to the repo
+        run: |
+          git config user.name "Recruiting Tracker Bot"
+          git config user.email "actions@github.com"
+          git add "Recruiting_Workbook.xlsx"
+          git diff --quiet --cached || git commit -m "Weekly automated update: $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Upload workbook as a downloadable artifact too
+        uses: actions/upload-artifact@v4
+        with:
+          name: recruiting-workbook-${{ github.run_number }}
+          path: Recruiting_Workbook.xlsx
+          retention-days: 90
