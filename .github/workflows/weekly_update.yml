@@ -2,11 +2,13 @@
 
 on:
   schedule:
+    # Every Monday at 8:00 AM Eastern (12:00 UTC - drifts an hour across DST,
+    # close enough for a weekly job).
     - cron: '0 12 * * 1'
-  workflow_dispatch: {}
+  workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
 
 permissions:
-  contents: write
+  contents: write   # needed so the workflow can commit the updated workbook back
 
 jobs:
   update:
@@ -32,7 +34,15 @@ jobs:
           git config user.email "actions@github.com"
           git add "Recruiting_Workbook.xlsx"
           git diff --quiet --cached || git commit -m "Weekly automated update: $(date +'%Y-%m-%d')"
+          git pull --rebase -X ours origin main
           git push
+
+      - name: Email the updated workbook
+        env:
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_APP_PASSWORD: ${{ secrets.SENDER_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python send_email.py --workbook "Recruiting_Workbook.xlsx"
 
       - name: Upload workbook as a downloadable artifact too
         uses: actions/upload-artifact@v4
