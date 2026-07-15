@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, not a shallow clone - needed for git pull --rebase to work
 
       - name: Set up Python
         uses: actions/setup-python@v5
