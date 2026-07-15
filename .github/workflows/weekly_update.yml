@@ -40,10 +40,22 @@ jobs:
         run: |
           git config user.name "Recruiting Tracker Bot"
           git config user.email "actions@github.com"
+
+          # Save our freshly generated file before touching git state at all.
+          cp "Recruiting_Workbook.xlsx" /tmp/fresh_workbook.xlsx
+
+          # Sync to whatever is actually latest on the remote right now,
+          # regardless of what this job's checkout started from. This can't
+          # conflict with anything, since we're not merging - just catching up.
+          git fetch origin main
+          git reset --hard origin/main
+
+          # Now lay our freshly generated file on top of that latest state.
+          cp /tmp/fresh_workbook.xlsx "Recruiting_Workbook.xlsx"
+
           git add "Recruiting_Workbook.xlsx"
           git diff --quiet --cached || git commit -m "Weekly automated update: $(date +'%Y-%m-%d')"
-          git pull --rebase -X ours origin main
-          git push
+          git push origin main
 
       - name: Email the updated workbook
         env:
